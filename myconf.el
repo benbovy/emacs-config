@@ -10,11 +10,17 @@
 
 ;; -- transparent background (not needed on OSX)
 (defun on-after-init ()
+  "redefine default background"
   (unless (display-graphic-p (selected-frame))
     (set-face-background 'default "unspecified-bg" (selected-frame))))
 
 (when (not (eq system-type 'darwin))
   (add-hook 'window-setup-hook 'on-after-init))
+
+
+;; -- split windows preferably
+;;(setq split-width-threshold nil)  ;; vertical split.
+;;(setq split-width-threshold 1)    ;; horizontal-split
 
 
 ;; -- standard keys for cut/copy/paste
@@ -92,6 +98,41 @@
   (local-set-key (kbd "<f7>") 'flycheck-buffer-and-list-errors)
   )
 (add-hook 'flycheck-mode-hook 'flycheck-mode-keys)
+
+
+;; -- magit settings
+(defvar pc:magit-from-buffer
+  "Buffer from where magit-status were last called."
+  nil)
+
+(defun pc:magit-status-buffer-switch (buf)
+    "replacement for `magit-status-buffer-switch-function'.
+`magit-status' does not split windows (switch to magit buffer
+instead). Also store the current buffer to switch back to it when
+ quitting.
+TODO: store the whole frame config instead?"
+  (setq pc:magit-from-buffer (current-buffer))
+  (switch-to-buffer buf)
+  )
+
+(setq magit-status-buffer-switch-function 'pc:magit-status-buffer-switch)
+
+(defun pc:magit-quit-window (&optional kill-buffer)
+  "replacement for \"q\" keybinding in magit.
+Bury the current (magit) buffer and switch to original buffer.
+With a prefix argument, kill the magit buffer instead."
+  (interactive "P")
+  (if kill-buffer (kill-buffer) (bury-buffer))
+  (switch-to-buffer pc:magit-from-buffer)
+  )
+
+(global-set-key (kbd "<f6>") 'magit-status)
+
+(defun magit-mode-keys()
+  "key map for exiting  magit-mode"
+  (define-key magit-mode-map (kbd "q") 'pc:magit-quit-window)
+  )
+(add-hook 'magit-mode-hook 'magit-mode-keys)
 
 
 (provide 'myconf)
