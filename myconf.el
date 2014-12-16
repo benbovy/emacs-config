@@ -1,8 +1,14 @@
-;; My Emacs Confiuration on top of Prelude
-;;
-;;
+;;; myconf --- My Emacs Configuration on top of Prelude.
+;;;
+;;;
 
-;; transparent background (not needed on OSX)
+;; This file is not part of GNU Emacs.
+
+;;; Commentary:
+
+;;; Code:
+
+;; -- transparent background (not needed on OSX)
 (defun on-after-init ()
   (unless (display-graphic-p (selected-frame))
     (set-face-background 'default "unspecified-bg" (selected-frame))))
@@ -11,22 +17,23 @@
   (add-hook 'window-setup-hook 'on-after-init))
 
 
-;; standard keys for cut/copy/paste
+;; -- standard keys for cut/copy/paste
 (cua-mode 1)
 
 
-;; disable guru mode
+;; -- disable guru mode
 (setq prelude-guru nil)
 
 
-;; disable flyspell
+;; -- disable flyspell
 ;; (setq prelude-flyspell nil)
 
-;; set en_US as default dictionary
+
+;; -- set en_US as default dictionary
 (setq ispell-dictionary "en_US")
 
 
-;; additional packages not provided by Prelude
+;; -- additional packages not provided by Prelude
 (require 'package)
 (add-to-list 'package-archives
              '("marmalade" .
@@ -39,7 +46,7 @@
 (prelude-install-packages)
 
 
-;; sr-speedbar settings
+;; -- sr-speedbar settings
 (require 'sr-speedbar)
 (global-set-key (kbd "C-c b") 'sr-speedbar-toggle)
 (autoload 'sr-speedbar-open "sr-speedbar" "Open the in-frame speedbar" t)
@@ -61,11 +68,30 @@
 
      (add-hook 'speedbar-reconfigure-keymaps-hook
                '(lambda ()
-                  (define-key speedbar-mode-map [S-up] 'speedbar-up-directory)
+                  (define-key speedbar-mode-map [C-S-up] 'speedbar-up-directory)
                   (define-key speedbar-mode-map [right] 'speedbar-flush-expand-line)
                   (define-key speedbar-mode-map [left] 'speedbar-contract-line)))
      )
   )
+
+
+;; -- flycheck settings
+(add-hook 'after-init-hook #'global-flycheck-mode)
+(setq flycheck-check-syntax-automatically '(save))
+
+(defun flycheck-buffer-and-list-errors()
+  "execute command flycheck-buffer and flycheck-list-errors"
+  (interactive)
+  (flycheck-buffer)
+  (flycheck-list-errors)
+  (other-window 1)
+  )
+
+(defun flycheck-mode-keys()
+  "key map for flycheck-mode"
+  (local-set-key (kbd "<f7>") 'flycheck-buffer-and-list-errors)
+  )
+(add-hook 'flycheck-mode-hook 'flycheck-mode-keys)
 
 
 (provide 'myconf)
