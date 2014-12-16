@@ -8,6 +8,20 @@
 
 ;;; Code:
 
+;; -- additional packages not provided by Prelude
+(require 'package)
+(add-to-list 'package-archives
+             '("marmalade" .
+               "http://marmalade-repo.org/packages/"))
+(package-initialize)
+(setq prelude-packages (append '(
+                                 sr-speedbar
+                                 nginx-mode
+                                 linum-off
+                                 ) prelude-packages))
+(prelude-install-packages)
+
+
 ;; -- transparent background (not needed on OSX)
 (defun on-after-init ()
   "redefine default background"
@@ -27,6 +41,31 @@
 (cua-mode 1)
 
 
+;; -- line numbers
+;;(require 'linum-off)   ;; v0.1 bug, doesn't load
+;;(global-linum-mode 1)
+
+(unless window-system
+  (add-hook 'linum-before-numbering-hook
+            (lambda ()
+              (setq-local linum-format-fmt
+                          (let ((w (length (number-to-string
+                                            (count-lines (point-min) (point-max))))))
+                            (concat "%" (number-to-string w) "d"))))))
+
+(defun linum-format-func (line)
+  (concat
+   (propertize (format linum-format-fmt line) 'face 'linum)
+   (propertize " " 'face 'mode-line)))
+
+(unless window-system
+    (setq linum-format 'linum-format-func))
+
+(custom-set-faces '(linum ((t (:foreground "#6F6F6F" :background "#3F3F3F" :box nil)))))
+
+;;(setq linum-format "%5d ")
+
+
 ;; -- disable guru mode
 (setq prelude-guru nil)
 
@@ -37,19 +76,6 @@
 
 ;; -- set en_US as default dictionary
 (setq ispell-dictionary "en_US")
-
-
-;; -- additional packages not provided by Prelude
-(require 'package)
-(add-to-list 'package-archives
-             '("marmalade" .
-               "http://marmalade-repo.org/packages/"))
-(package-initialize)
-(setq prelude-packages (append '(
-                                 sr-speedbar
-                                 nginx-mode
-                                 ) prelude-packages))
-(prelude-install-packages)
 
 
 ;; -- sr-speedbar settings
@@ -63,7 +89,7 @@
            speedbar-smart-directory-expand-flag t
            speedbar-directory-button-trim-method 'trim
            speedbar-use-images nil
-           speedbar-indentation-width 2
+            speedbar-indentation-width 2
            speedbar-use-imenu-flag t
            speedbar-file-unshown-regexp "flycheck-.*"
            sr-speedbar-width 40
@@ -76,12 +102,12 @@
                '(lambda ()
                   (define-key speedbar-mode-map [C-S-up] 'speedbar-up-directory)
                   (define-key speedbar-mode-map [right] 'speedbar-flush-expand-line)
-                  (define-key speedbar-mode-map [left] 'speedbar-contract-line)))
+                   (define-key speedbar-mode-map [left] 'speedbar-contract-line)))
      )
   )
 
 
-;; -- flycheck settings
+;;  -- flycheck settings
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (setq flycheck-check-syntax-automatically '(save))
 
@@ -118,7 +144,7 @@ TODO: store the whole frame config instead?"
 (setq magit-status-buffer-switch-function 'pc:magit-status-buffer-switch)
 
 (defun pc:magit-quit-window (&optional kill-buffer)
-  "replacement for \"q\" keybinding in magit.
+  "r eplacement for \"q\" keybinding in magit.
 Bury the current (magit) buffer and switch to original buffer.
 With a prefix argument, kill the magit buffer instead."
   (interactive "P")
@@ -136,4 +162,4 @@ With a prefix argument, kill the magit buffer instead."
 
 
 (provide 'myconf)
-;;; myconf.el ends here
+;;;  myconf.el ends here
