@@ -82,6 +82,12 @@
 (setq ispell-dictionary "en_US")
 
 
+;; -- additional search engines
+;; TODO: wordreference search
+;;(require 'prelude-core)
+;;(Prelude-install-search-engine "wordreference"     "http://www.google.com/search?q="              "Google: ")
+
+
 ;; -- sr-speedbar settings
 (require 'sr-speedbar)
 (global-set-key (kbd "C-c b") 'sr-speedbar-toggle)
