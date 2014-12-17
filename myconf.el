@@ -53,7 +53,7 @@
   (add-hook 'linum-before-numbering-hook
             (lambda ()
               (setq-local linum-format-fmt
-                          (let ((w (length (number-to-string
+                            (let ((w (length (number-to-string
                                             (count-lines (point-min) (point-max))))))
                             (concat "%" (number-to-string w) "d"))))))
 
@@ -90,7 +90,7 @@
   '(progn
      (setq speedbar-hide-button-brackets-flag t
            speedbar-show-unknown-files t
-           speedbar-smart-directory-expand-flag t
+            speedbar-smart-directory-expand-flag t
            speedbar-directory-button-trim-method 'trim
            speedbar-use-images nil
             speedbar-indentation-width 2
@@ -108,7 +108,7 @@
                   (define-key speedbar-mode-map [right] 'speedbar-flush-expand-line)
                    (define-key speedbar-mode-map [left] 'speedbar-contract-line)))
      )
-  )
+    )
 
 
 ;;  -- flycheck settings
@@ -138,7 +138,7 @@
 (defun pc:magit-status-buffer-switch (buf)
     "replacement for `magit-status-buffer-switch-function'.
 `magit-status' does not split windows (switch to magit buffer
-instead). Also store the current buffer to switch back to it when
+in stead). Also store the current buffer to switch back to it when
  quitting.
 TODO: store the whole frame config instead?"
   (setq pc:magit-from-buffer (current-buffer))
@@ -155,8 +155,6 @@ With a prefix argument, kill the magit buffer instead."
   (if kill-buffer (kill-buffer) (bury-buffer))
   (switch-to-buffer pc:magit-from-buffer)
   )
-
-(global-set-key (kbd "<f6>") 'magit-status)
 
 (defun magit-mode-keys()
   "key map for exiting  magit-mode"
