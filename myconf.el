@@ -49,9 +49,11 @@
 ;;(require 'linum-off)   ;; v0.1 bug, doesn't load
 ;;(global-linum-mode 1)
 
+(global-set-key (kbd "C-x n") 'linum-mode)
+
 (unless window-system
   (add-hook 'linum-before-numbering-hook
-            (lambda ()
+             (lambda ()
               (setq-local linum-format-fmt
                             (let ((w (length (number-to-string
                                             (count-lines (point-min) (point-max))))))
