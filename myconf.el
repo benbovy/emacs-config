@@ -37,6 +37,10 @@
 ;;(setq split-width-threshold 1)    ;; horizontal-split
 
 
+;; -- disable system bip
+(setq visible-bell t)
+
+
 ;; -- standard keys for cut/copy/paste
 (cua-mode 1)
 
