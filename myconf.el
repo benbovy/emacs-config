@@ -17,6 +17,8 @@
 (setq prelude-packages (append '(
                                  sr-speedbar
                                  nginx-mode
+                                 jinja2-mode
+                                 python-django
                                  linum-off
                                  ) prelude-packages))
 (prelude-install-packages)
@@ -169,6 +171,15 @@ With a prefix argument, kill the magit buffer instead."
   (define-key magit-mode-map (kbd "q") 'pc:magit-quit-window)
   )
 (add-hook 'magit-mode-hook 'magit-mode-keys)
+
+
+;; -- web-mode settings
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+(setq web-mode-engines-alist
+      '(("django"    . "\\.html\\'"))
+      )
 
 
 (provide 'myconf)
