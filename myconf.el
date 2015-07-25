@@ -20,6 +20,7 @@
                                  jinja2-mode
                                  python-django
                                  linum-off
+                                 multi-term
                                  ) prelude-packages))
 (prelude-install-packages)
 
@@ -180,6 +181,10 @@ With a prefix argument, kill the magit buffer instead."
 (setq web-mode-engines-alist
       '(("django"    . "\\.html\\'"))
       )
+
+
+;; -- multi-term settings
+(setq multi-term-program "/bin/bash")
 
 
 (provide 'myconf)
