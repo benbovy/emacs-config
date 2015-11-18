@@ -17,11 +17,14 @@
 (setq prelude-packages (append '(
                                  sr-speedbar
                                  nginx-mode
+                                 jinja2-mode
+                                 python-django
                                  linum-off
                                  editorconfig
                                  multi-term
                                  package-utils
                                  ranger
+                                 multi-term
                                  ) prelude-packages))
 (prelude-install-packages)
 
@@ -175,7 +178,7 @@ With a prefix argument, kill the magit buffer instead."
 (add-hook 'magit-mode-hook 'magit-mode-keys)
 
 
-;; handle tmux's xterm-keys
+;; --- handle tmux's xterm-keys
 ;; put the following line in your ~/.tmux.conf:
 ;;   setw -g xterm-keys on
 (if (getenv "TMUX")
@@ -267,6 +270,18 @@ With a prefix argument, kill the magit buffer instead."
       )
   )
 
+
+;; -- web-mode settings
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+(setq web-mode-engines-alist
+      '(("django"    . "\\.html\\'"))
+      )
+
+
+;; -- multi-term settings
+(setq multi-term-program "/bin/bash")
 
 (provide 'myconf)
 ;;;  myconf.el ends here

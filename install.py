@@ -5,7 +5,6 @@ Install script to copy (symlink) emacs configuration files.
 """
 
 import os
-import shutil
 import inspect
 
 
@@ -20,9 +19,15 @@ try:
 except OSError:
     pass
 
-os.symlink(os.path.join(THIS_DIR, 'myconf.el'),
-           os.path.join(EMACS_CONF_DIR, 'personal', 'myconf.el'))
+try:
+    os.symlink(os.path.join(THIS_DIR, 'myconf.el'),
+               os.path.join(EMACS_CONF_DIR, 'personal', 'myconf.el'))
+except FileExistsError:
+    pass
 
-#
-#shutil.copy(os.path.join(THIS_DIR, 'myconf.el'),
-#            os.path.join(EMACS_CONF_DIR, 'personal', 'myconf.el'))
+try:
+    os.symlink(os.path.join(THIS_DIR, 'prelude-modules.el'),
+               os.path.join(EMACS_CONF_DIR, 'prelude-modules.el'))
+except FileExistsError:
+    pass
+
