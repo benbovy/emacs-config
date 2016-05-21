@@ -13,15 +13,17 @@ THIS_DIR = os.path.dirname(
     os.path.abspath(inspect.getfile(inspect.currentframe()))
 )
 EMACS_CONF_DIR = os.path.join(USER_DIR, ".emacs.d")
+EMACS_PERS_DIR = os.path.join(EMACS_CONF_DIR, "personal")
 
-try:
-    os.mkdir(EMACS_CONF_DIR)
-except OSError:
-    pass
+for d in (EMACS_CONF_DIR, EMACS_PERS_DIR):
+    try:
+        os.mkdir(d)
+    except OSError:
+        pass
 
 try:
     os.symlink(os.path.join(THIS_DIR, 'myconf.el'),
-               os.path.join(EMACS_CONF_DIR, 'personal', 'myconf.el'))
+               os.path.join(EMACS_PERS_DIR, 'myconf.el'))
 except FileExistsError:
     pass
 
