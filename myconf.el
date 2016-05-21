@@ -283,5 +283,13 @@ With a prefix argument, kill the magit buffer instead."
 ;; -- multi-term settings
 (setq multi-term-program "/bin/bash")
 
+
+;; -- switch back fn- left/right on OS-X
+(setq mac-option-modifier 'super )
+(setq mac-command-modifier 'meta )
+(define-key global-map [home] 'beginning-of-line)
+(define-key global-map [end] 'end-of-line)
+
+
 (provide 'myconf)
 ;;;  myconf.el ends here
