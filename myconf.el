@@ -287,7 +287,7 @@ With a prefix argument, kill the magit buffer instead."
 ;; -- switch back fn- left/right on OS-X
 (setq mac-option-modifier 'super )
 (setq mac-command-modifier 'meta )
-(define-key global-map [home] 'beginning-of-line)
+(define-key global-map [home] 'back-to-indentation)
 (define-key global-map [end] 'end-of-line)
 
 
