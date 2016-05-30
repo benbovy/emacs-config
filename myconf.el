@@ -144,40 +144,6 @@
   )
 (add-hook 'flycheck-mode-hook 'flycheck-mode-keys)
 
-
-;; -- magit settings
-(defvar pc:magit-from-buffer
-  "Buffer from where magit-status were last called."
-  nil)
-
-(defun pc:magit-status-buffer-switch (buf)
-  "replacement for `magit-status-buffer-switch-function'.
-`magit-status' does not split windows (switch to magit buffer
-in stead). Also store the current buffer to switch back to it when
- quitting.
-TODO: store the whole frame config instead?"
-  (setq pc:magit-from-buffer (current-buffer))
-  (switch-to-buffer buf)
-  )
-
-(setq magit-status-buffer-switch-function 'pc:magit-status-buffer-switch)
-
-(defun pc:magit-quit-window (&optional kill-buffer)
-  "r eplacement for \"q\" keybinding in magit.
-Bury the current (magit) buffer and switch to original buffer.
-With a prefix argument, kill the magit buffer instead."
-  (interactive "P")
-  (if kill-buffer (kill-buffer) (bury-buffer))
-  (switch-to-buffer pc:magit-from-buffer)
-  )
-
-(defun magit-mode-keys()
-  "key map for exiting  magit-mode"
-  (define-key magit-mode-map (kbd "q") 'pc:magit-quit-window)
-  )
-(add-hook 'magit-mode-hook 'magit-mode-keys)
-
-
 ;; --- handle tmux's xterm-keys
 ;; put the following line in your ~/.tmux.conf:
 ;;   setw -g xterm-keys on
