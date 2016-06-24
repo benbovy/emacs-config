@@ -25,6 +25,7 @@
                                  package-utils
                                  ranger
                                  multi-term
+                                 flycheck-pyflakes
                                  ) prelude-packages))
 (prelude-install-packages)
 
@@ -129,6 +130,7 @@
 ;;  -- flycheck settings
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (setq flycheck-check-syntax-automatically '(save))
+(setq flycheck-check-indication-mode '(left-fringe))
 
 (defun flycheck-buffer-and-list-errors()
   "execute command flycheck-buffer and flycheck-list-errors"
