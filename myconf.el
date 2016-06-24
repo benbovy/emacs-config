@@ -256,6 +256,10 @@
 (define-key global-map [home] 'back-to-indentation)
 (define-key global-map [end] 'end-of-line)
 
+;; -- make C left/right the same as fn- left/right (use on keyboard w/ numpad)
+(global-set-key (kbd "<C-left>") 'back-to-indentation)
+(global-set-key (kbd "<C-right>") 'end-of-line)
+
 
 (provide 'myconf)
 ;;;  myconf.el ends here
