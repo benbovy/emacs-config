@@ -43,6 +43,7 @@
 ;; -- split windows preferably
 ;;(setq split-width-threshold nil)  ;; vertical split.
 ;;(setq split-width-threshold 1)    ;; horizontal-split
+;;(setq split-height-threshold 200)
 
 
 ;; -- disable system bip
