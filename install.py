@@ -32,4 +32,3 @@ try:
                os.path.join(EMACS_CONF_DIR, 'prelude-modules.el'))
 except FileExistsError:
     pass
-

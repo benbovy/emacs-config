@@ -19,6 +19,7 @@
                                  nginx-mode
                                  jinja2-mode
                                  python-django
+                                 company-web
                                  linum-off
                                  editorconfig
                                  multi-term
@@ -26,6 +27,8 @@
                                  ranger
                                  multi-term
                                  flycheck-pyflakes
+                                 elpy
+                                 pyvenv
                                  ) prelude-packages))
 (prelude-install-packages)
 
@@ -248,6 +251,20 @@
       '(("django"    . "\\.html\\'"))
       )
 
+
+;; -- Python: use elpy instead of anaconda-mode
+;(elpy-enable)
+;(add-hook 'elpy-mode-hook (lambda () (anaconda-mode -1)))
+
+
+;; -- Trick to select conda environment within emacs (using elpy or anaconda-mode)
+;;    (see http://emacs.stackexchange.com/questions/20092/using-conda-environments-in-emacs)
+;;    emacs must be run from a conda env activated!!
+(setq conda-env-dir (file-name-directory (directory-file-name (getenv "CONDA_PREFIX"))))
+(message "Conda environments directory: %s" conda-env-dir)
+(setenv "WORKON_HOME" conda-env-dir)
+(pyvenv-mode 1)
+(defalias 'conda-workon 'pyvenv-workon)
 
 ;; -- multi-term settings
 (setq multi-term-program "/bin/bash")
