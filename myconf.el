@@ -261,7 +261,8 @@
 ;;    (see http://emacs.stackexchange.com/questions/20092/using-conda-environments-in-emacs)
 ;;    emacs must be run from a conda env activated!!
 (if (getenv "CONDA_PREFIX")
-    ((setq conda-env-dir (file-name-directory (directory-file-name (getenv "CONDA_PREFIX"))))
+    (progn
+     (setq conda-env-dir (file-name-directory (directory-file-name (getenv "CONDA_PREFIX"))))
      (message "Conda environments directory: %s" conda-env-dir)
      (setenv "WORKON_HOME" conda-env-dir)
      (pyvenv-mode 1)
