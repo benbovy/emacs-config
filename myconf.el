@@ -43,6 +43,9 @@
   (add-hook 'window-setup-hook 'on-after-init))
 
 
+;; -- don't show menu bar (os-x)
+(menu-bar-mode 0)
+
 ;; -- split windows preferably
 ;;(setq split-width-threshold nil)  ;; vertical split.
 ;;(setq split-width-threshold 1)    ;; horizontal-split
