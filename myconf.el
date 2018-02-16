@@ -33,6 +33,12 @@
 (prelude-install-packages)
 
 
+;; -- General settings for GUI (close to terminal settings)
+(set-face-attribute 'default nil
+                    :family "Menlo" :height 120 :weight 'extra-light)
+(setq-default line-spacing 0.1)
+
+
 ;; -- transparent background (not needed on OSX)
 (defun on-after-init ()
   "redefine default background"
@@ -43,8 +49,9 @@
   (add-hook 'window-setup-hook 'on-after-init))
 
 
-;; -- don't show menu bar (os-x)
+;; -- don't show menu bar nor scroll bar (os-x)
 (menu-bar-mode 0)
+(scroll-bar-mode 0)
 
 ;; -- split windows preferably
 ;;(setq split-width-threshold nil)  ;; vertical split.
