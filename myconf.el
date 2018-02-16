@@ -315,5 +315,11 @@
    )
 )
 
+;; -- counsel projectile
+(prelude-require-packages '(counsel-projectile))
+(require 'counsel-projectile)
+(counsel-projectile-mode +1)
+
+
 (provide 'myconf)
 ;;;  myconf.el ends here
