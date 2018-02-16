@@ -60,6 +60,12 @@
 (cua-mode 1)
 
 
+;; -- iedit + keybinding that works on a terminal
+(prelude-require-packages '(iedit))
+(require 'iedit)
+(global-set-key (kbd "C-c ;") 'iedit-mode)
+
+
 ;; -- line numbers
 (require 'linum-off)   ;; v0.1 bug, doesn't load
 (global-linum-mode 1)
