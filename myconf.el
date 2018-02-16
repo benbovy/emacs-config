@@ -288,5 +288,26 @@
 (global-set-key (kbd "<C-right>") 'end-of-line)
 
 
+;; -- Git gutter
+(prelude-require-packages '(git-gutter))
+(require 'git-gutter)
+
+(global-git-gutter-mode +1)
+(git-gutter:linum-setup)
+
+(custom-set-variables
+ '(git-gutter:modified-sign "!")
+ '(git-gutter:added-sign "+")
+ '(git-gutter:deleted-sign "-"))
+
+(zenburn-with-color-variables
+  (custom-theme-set-faces
+   'zenburn
+   `(git-gutter:modified ((t (:foreground ,zenburn-orange))))
+   `(git-gutter:added ((t (:foreground ,zenburn-green))))
+   `(git-gutter:deleted ((t (:foreground ,zenburn-red))))
+   )
+)
+
 (provide 'myconf)
 ;;;  myconf.el ends here
