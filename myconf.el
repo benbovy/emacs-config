@@ -66,6 +66,24 @@
 (global-set-key (kbd "C-c ;") 'iedit-mode)
 
 
+;; -- wgrep + zenburn compatible colors
+(prelude-require-packages '(wgrep))
+(require 'wgrep)
+(zenburn-with-color-variables
+  (custom-theme-set-faces
+   'zenburn
+   `(wgrep-face ((t (:foreground ,zenburn-blue+1))))
+   `(wgrep-delete-face ((t (:foreground ,zenburn-red+1))))
+   `(wgrep-file-face ((t (:background ,zenburn-blue-5
+                          :foreground ,zenburn-blue+1))))
+   `(wgrep-reject-face ((t (:background ,zenburn-red-4
+                            :foreground ,zenburn-red+1))))
+   `(wgrep-done-face ((t (:background "#555511"
+                          :foreground ,zenburn-yellow))))
+   )
+)
+
+
 ;; -- line numbers
 (require 'linum-off)   ;; v0.1 bug, doesn't load
 (global-linum-mode 1)
