@@ -15,7 +15,6 @@
                "http://marmalade-repo.org/packages/"))
 (package-initialize)
 (setq prelude-packages (append '(
-                                 sr-speedbar
                                  nginx-mode
                                  jinja2-mode
                                  python-django
@@ -40,7 +39,7 @@
 
 
 ;; -- transparent background (not needed on OSX)
-(defun on-after-init ()
+(defun on-after-init()
   "redefine default background"
   (unless (display-graphic-p (selected-frame))
     (set-face-background 'default "unspecified-bg" (selected-frame))))
@@ -52,6 +51,7 @@
 ;; -- don't show menu bar nor scroll bar (os-x)
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
+
 
 ;; -- split windows preferably
 ;;(setq split-width-threshold nil)  ;; vertical split.
@@ -88,7 +88,8 @@
    `(wgrep-done-face ((t (:background "#555511"
                           :foreground ,zenburn-yellow))))
    )
-)
+  )
+
 
 ;; -- make windmove work in org-mode
 (add-hook 'org-shiftup-final-hook 'windmove-up)
@@ -96,12 +97,14 @@
 (add-hook 'org-shiftdown-final-hook 'windmove-down)
 (add-hook 'org-shiftright-final-hook 'windmove-right)
 
-;; -- line numbers
-(require 'linum-off)   ;; v0.1 bug, doesn't load
+
+;; -- line numbers in left margin (+ auto off)
+(require 'linum-off)
 (global-linum-mode 1)
 
 (global-set-key (kbd "C-x n") 'linum-mode)
 
+;; separate line numbers from text
 (unless window-system
   (add-hook 'linum-before-numbering-hook
             (lambda ()
@@ -110,17 +113,13 @@
                                             (count-lines (point-min) (point-max))))))
                             (concat "%" (number-to-string w) "d"))))))
 
-(defun linum-format-func (line)
+(defun linum-format-func(line)
   (concat
    (propertize (format linum-format-fmt line) 'face 'linum)
    (propertize " " 'face 'mode-line)))
 
 (unless window-system
   (setq linum-format 'linum-format-func))
-
-(custom-set-faces '(linum ((t (:foreground "#6F6F6F" :background "#3F3F3F" :box nil)))))
-
-;;(setq linum-format "%5d ")
 
 
 ;; -- disable guru mode
@@ -133,41 +132,6 @@
 
 ;; -- set en_US as default dictionary
 (setq ispell-dictionary "en_US")
-
-
-;; -- additional search engines
-;; TODO: wordreference search
-;;(require 'prelude-core)
-;;(Prelude-install-search-engine "wordreference"     "http://www.google.com/search?q="              "Google: ")
-
-
-;; -- sr-speedbar settings
-(require 'sr-speedbar)
-(global-set-key (kbd "C-c b") 'sr-speedbar-toggle)
-(autoload 'sr-speedbar-open "sr-speedbar" "Open the in-frame speedbar" t)
-(eval-after-load 'sr-speedbar
-  '(progn
-     (setq speedbar-hide-button-brackets-flag t
-           speedbar-show-unknown-files t
-           speedbar-smart-directory-expand-flag t
-           speedbar-directory-button-trim-method 'trim
-           speedbar-use-images nil
-           speedbar-indentation-width 2
-           speedbar-use-imenu-flag t
-           speedbar-file-unshown-regexp "flycheck-.*"
-           sr-speedbar-width 40
-           sr-speedbar-width-x 40
-           sr-speedbar-auto-refresh nil
-           sr-speedbar-skip-other-window-p t
-           sr-speedbar-right-side nil)
-
-     (add-hook 'speedbar-reconfigure-keymaps-hook
-               '(lambda ()
-                  (define-key speedbar-mode-map [C-S-up] 'speedbar-up-directory)
-                  (define-key speedbar-mode-map [right] 'speedbar-flush-expand-line)
-                  (define-key speedbar-mode-map [left] 'speedbar-contract-line)))
-     )
-  )
 
 
 ;;  -- flycheck settings
@@ -311,17 +275,6 @@
 
 ;; -- multi-term settings
 (setq multi-term-program "/bin/bash")
-
-
-;; -- switch back fn- left/right on OS-X
-(setq mac-option-modifier 'super )
-(setq mac-command-modifier 'meta )
-(define-key global-map [home] 'back-to-indentation)
-(define-key global-map [end] 'end-of-line)
-
-;; -- make C left/right the same as fn- left/right (use on keyboard w/ numpad)
-(global-set-key (kbd "<C-left>") 'back-to-indentation)
-(global-set-key (kbd "<C-right>") 'end-of-line)
 
 
 ;; -- Git gutter
