@@ -316,6 +316,7 @@
 (prelude-require-packages '(git-gutter))
 (require 'git-gutter)
 
+(global-diff-hl-mode -1)    ;; git-gutter works better in terminal than diff-hl
 (global-git-gutter-mode +1)
 (git-gutter:linum-setup)
 
@@ -324,12 +325,16 @@
  '(git-gutter:added-sign "+")
  '(git-gutter:deleted-sign "-"))
 
+;; copied from zenburn colors set for diff-hl
 (zenburn-with-color-variables
   (custom-theme-set-faces
    'zenburn
-   `(git-gutter:modified ((t (:foreground ,zenburn-orange))))
-   `(git-gutter:added ((t (:foreground ,zenburn-green))))
-   `(git-gutter:deleted ((t (:foreground ,zenburn-red))))
+   `(git-gutter:modified ((t (:foreground ,zenburn-blue
+                              :background ,zenburn-blue-2))))
+   `(git-gutter:added ((t (:foreground ,zenburn-green+1
+                           :background ,zenburn-green-1))))
+   `(git-gutter:deleted ((t (:foreground ,zenburn-red+1
+                             :background ,zenburn-red-1))))
    )
 )
 
