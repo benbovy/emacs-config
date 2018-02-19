@@ -319,5 +319,54 @@
 (global-set-key (kbd "M-g") 'avy-goto-word-or-subword-1)
 
 
+;; -- org config
+(setq org-directory "~/Dropbox/org")
+(setq org-default-notes-file "~/Dropbox/org/refile.org")
+
+(setq org-agenda-files '("~/Dropbox/org"))
+
+(global-set-key (kbd "C-c c") 'org-capture)
+
+;; refile to current org file or agenda org files (max 9 deep levels)
+(setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                 (org-agenda-files :maxlevel . 9))))
+
+(defvar date_added "\n  :PROPERTIES:\n  :DATE_ADDED: %U")
+
+(setq org-capture-templates
+      `(("t" "todo" entry (file "~/Dropbox/Org/refile.org")
+         ,(concat "* TODO %?" date_added))
+        ("n" "note" entry (file "~/Dropbox/Org/refile.org")
+         ,(concat "* %? :note:" date_added))
+        ("e" "event" entry (file "~/Dropbox/Org/refile.org")
+         ,(concat "* %? %^T :event:" date_added))
+        ("m" "message" entry (file "~/Dropbox/Org/refile.org")
+         ,(concat "* TODO contact %? :msg:" date_added))
+        ("b" "bank transfer" entry (file "~/Dropbox/Org/refile.org")
+         ,(concat "* TODO transfer %? to (account: ) :bank:" date_added))))
+
+(setq org-tag-alist (quote ((:startgroup)
+                            ("@GFZ" . ?G)
+                            ("@Home" . ?H)
+                            ("@Berlin" . ?B)
+                            (:endgroup)
+                            ("perso" . ?p)
+                            ("admin" . ?a)
+                            ("bank" . ?b)
+                            ("urgent" . ?u)
+                            ("idea" . ?i)
+                            ("canceled". ?d)
+                            ("note" . ?n)
+                            ("music" . ?m)
+                            ("roscoe" . ?r))))
+
+(setq org-agenda-custom-commands
+      '(("r" "Tasks to refile"
+         ((agenda "" nil)
+          (tags "refile"
+                ((org-agenda-overriding-header "Tasks to Refile")
+                 (org-tags-match-list-sublevels nil)))))))
+
+
 (provide 'myconf)
 ;;;  myconf.el ends here
