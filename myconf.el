@@ -98,6 +98,10 @@
 (add-hook 'org-shiftright-final-hook 'windmove-right)
 
 
+;; -- custom ace-window shortcut (<s-w>, i.e., Command-w doesn't work in terminal)
+(global-set-key (kbd "M-p") 'ace-window)
+
+
 ;; -- line numbers in left margin (+ auto off)
 (require 'linum-off)
 (global-linum-mode 1)
