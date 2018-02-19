@@ -313,5 +313,11 @@
 (counsel-projectile-mode +1)
 
 
+;; -- avy
+(prelude-require-packages '(avy))
+(require 'avy)
+(global-set-key (kbd "M-g") 'avy-goto-word-or-subword-1)
+
+
 (provide 'myconf)
 ;;;  myconf.el ends here
