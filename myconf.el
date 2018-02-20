@@ -331,7 +331,7 @@
 (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                  (org-agenda-files :maxlevel . 9))))
 
-(defvar date_added "\n  :PROPERTIES:\n  :DATE_ADDED: %U")
+(defvar date_added "\n  :PROPERTIES:\n  :DATE_ADDED: %U\n  :END:\n")
 
 (setq org-capture-templates
       `(("t" "todo" entry (file "~/Dropbox/Org/refile.org")
