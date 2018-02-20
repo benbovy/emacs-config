@@ -343,7 +343,9 @@
         ("m" "message" entry (file "~/Dropbox/Org/refile.org")
          ,(concat "* TODO contact %? :msg:" date_added))
         ("b" "bank transfer" entry (file "~/Dropbox/Org/refile.org")
-         ,(concat "* TODO transfer %? to (account: ) :bank:" date_added))))
+         ,(concat "* TODO transfer %? to (account: ) :bank:" date_added))
+        ("s" "shop" entry (file "~/Dropbox/Org/refile.org")
+         ,(concat "* TODO buy :shop:" date_added))))
 
 (setq org-tag-alist (quote ((:startgroup)
                             ("@GFZ" . ?G)
@@ -351,6 +353,7 @@
                             ("@Berlin" . ?B)
                             (:endgroup)
                             ("perso" . ?p)
+                            ("pixcie" . ?x)
                             ("admin" . ?a)
                             ("bank" . ?b)
                             ("urgent" . ?u)
@@ -358,14 +361,16 @@
                             ("canceled". ?d)
                             ("note" . ?n)
                             ("music" . ?m)
-                            ("roscoe" . ?r))))
+                            ("roscoe" . ?r)
+                            ("shop" . ?s))))
 
 (setq org-agenda-custom-commands
-      '(("r" "Tasks to refile"
+      '(("c" "Custom agenda view"
          ((agenda "" nil)
           (tags "refile"
                 ((org-agenda-overriding-header "Tasks to Refile")
-                 (org-tags-match-list-sublevels nil)))))))
+                 (org-tags-match-list-sublevels nil)))
+          ))))
 
 
 (provide 'myconf)
