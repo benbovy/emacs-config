@@ -401,5 +401,11 @@
           ))))
 
 
+;; -- calfw
+(prelude-require-packages '(calfw calfw-org))
+(require 'calfw)
+(require 'calfw-org)
+
+
 (provide 'myconf)
 ;;;  myconf.el ends here
