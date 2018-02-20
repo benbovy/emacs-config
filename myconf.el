@@ -320,6 +320,8 @@
 
 
 ;; -- org config
+(setq org-modules '(org-habit))
+
 (setq org-directory "~/Dropbox/org")
 (setq org-default-notes-file "~/Dropbox/org/refile.org")
 
@@ -327,9 +329,35 @@
 
 (global-set-key (kbd "C-c c") 'org-capture)
 
+; also text search (C-a s) in archive files
+;(setq org-agenda-text-search-extra-files '(agenda-archives))
+
+; force complete child tasks first (bug with zenburn: bad color)
+;(setq org-enforce-todo-dependencies t)
+
+;(setq org-log-done (quote time))   ; log defined below in org-todo-keywords
+(setq org-log-redeadline (quote time))
+(setq org-log-reschedule (quote time))
+
+(setq org-habit-show-habits-only-for-today nil)
+(setq org-habit-graph-column 50)
+(setq org-habit-preceding-days 4)
+
 ;; refile to current org file or agenda org files (max 9 deep levels)
 (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                  (org-agenda-files :maxlevel . 9))))
+
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "|" "DONE(d!)")
+        (sequence "IN-PROGRESS(i)" "WAITING(w@/!)" "|" "CANCELED(c@)")))
+
+(setq org-use-fast-todo-selection t)
+
+(zenburn-with-color-variables
+  (setq org-todo-keyword-faces
+        `(("WAITING" :foreground ,zenburn-orange :weight bold)
+          ("IN-PROGRESS" :foreground ,zenburn-blue :weight bold)
+          ("CANCELED" :foreground ,zenburn-green :weight bold))))
 
 (defvar date_added "\n  :PROPERTIES:\n  :DATE_ADDED: %U\n  :END:\n")
 
