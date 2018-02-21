@@ -104,11 +104,12 @@
 
 ;; -- line numbers in left margin (+ auto off)
 (require 'linum-off)
-(global-linum-mode 1)
+(global-linum-mode 0)
 
 (global-set-key (kbd "C-x n") 'linum-mode)
 
 ;; separate line numbers from text
+;; fancy but very slow (that's why limum mode is disabled by default)
 (unless window-system
   (add-hook 'linum-before-numbering-hook
             (lambda ()
