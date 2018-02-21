@@ -369,7 +369,11 @@
 (defvar date_added "\n  :PROPERTIES:\n  :DATE_ADDED: %U\n  :END:\n")
 
 (setq org-capture-templates
-      `(("t" "todo" entry (file "~/Dropbox/Org/refile.org")
+      `((" " "simple entry" entry (file "~/Dropbox/Org/refile.org")
+         "* %?")
+        ("p" "new project" entry (file "~/Dropbox/Org/projects.org")
+         "* %? %^g")
+        ("t" "todo" entry (file "~/Dropbox/Org/refile.org")
          ,(concat "* TODO %?" date_added))
         ("n" "note" entry (file "~/Dropbox/Org/refile.org")
          ,(concat "* %? :note:" date_added))
@@ -378,11 +382,9 @@
         ("m" "message" entry (file "~/Dropbox/Org/refile.org")
          ,(concat "* TODO contact %? :msg:" date_added))
         ("b" "bank transfer" entry (file "~/Dropbox/Org/refile.org")
-         ,(concat "* TODO transfer %? to (account: ) :bank:" date_added))
+         ,(concat "* TODO transfer %? :bank:" date_added))
         ("s" "shop" entry (file "~/Dropbox/Org/refile.org")
-         ,(concat "* TODO buy :shop:" date_added))
-        ("p" "new project" entry (file "~/Dropbox/Org/projects.org")
-         "* %? %^g")))
+         ,(concat "* TODO buy :shop:" date_added))))
 
 (setq org-tag-alist (quote ((:startgroup)
                             ("@GFZ" . ?G)
@@ -401,6 +403,41 @@
                             ("roscoe" . ?r)
                             ("shop" . ?s))))
 
+; from http://doc.norang.ca/org-mode.html
+(defun bh/skip-non-stuck-projects ()
+  "Skip trees that are not stuck projects."
+  (save-restriction
+    (widen)
+    (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
+      (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
+             (has-next ))
+        (save-excursion
+          (forward-line 1)
+          (while (and (not has-next) (< (point) subtree-end) (re-search-forward "^\\*+ NEXT " subtree-end t))
+            (unless (member "WAITING" (org-get-tags-at))
+              (setq has-next t))))
+        (if has-next
+            next-headline
+          nil)) ; a stuck project, has subtasks but no next task
+      )))
+
+(defun bh/skip-stuck-projects ()
+  "Skip trees that are stuck projects."
+  (save-restriction
+    (widen)
+    (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
+      (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
+             (has-next ))
+        (save-excursion
+          (forward-line 1)
+          (while (and (not has-next) (< (point) subtree-end) (re-search-forward "^\\*+ NEXT " subtree-end t))
+            (unless (member "WAITING" (org-get-tags-at))
+              (setq has-next t))))
+        (if has-next
+            nil ; a stuck project, has subtasks but no next task
+          next-headline))
+      )))
+
 (setq org-agenda-custom-commands
       '(("c" "Custom agenda view"
          ((agenda "" nil)
@@ -412,6 +449,23 @@
                       (org-tags-match-list-sublevels t)
                       (org-agenda-sorting-strategy
                        '(todo-state-down effort-up priority-down category-keep))))
+          (todo "WAITING"
+                ((org-agenda-overriding-header "Waiting tasks")
+                 (org-tags-match-list-sublevels t)
+                 (org-agenda-sorting-strategy
+                  '(todo-state-down priority-down category-keep))))
+          (tags "+LEVEL=1-TODO=\"CANCELED\""
+                ((org-agenda-overriding-header "Stuck projects")
+                 (org-agenda-files '("~/Dropbox/org/projects.org"))
+                 (org-agenda-skip-function 'bh/skip-non-stuck-projects)
+                 (org-agenda-sorting-strategy
+                  '(category-keep))))
+          (tags "+LEVEL=1"
+                ((org-agenda-overriding-header "All other projects")
+                 (org-agenda-files '("~/Dropbox/org/projects.org"))
+                 (org-agenda-skip-function 'bh/skip-stuck-projects)
+                 (org-agenda-sorting-strategy
+                  '(category-keep))))
           ))))
 
 
