@@ -344,7 +344,7 @@
 (setq org-habit-graph-column 50)
 (setq org-habit-preceding-days 4)
 
-;; refile up to 3 levels in current/agenda files
+; refile up to 3 levels in current/agenda files
 (setq org-refile-targets (quote ((nil :maxlevel . 3)
                                  (org-agenda-files :maxlevel . 3))))
 
@@ -359,6 +359,12 @@
         `(("WAITING" :foreground ,zenburn-orange :weight bold)
           ("NEXT" :foreground ,zenburn-blue :weight bold)
           ("CANCELED" :foreground ,zenburn-green :weight bold))))
+
+; some colors not defined properly in zenburn
+(zenburn-with-color-variables
+  (custom-theme-set-faces
+   'zenburn
+   `(org-agenda-done ((t (:foreground ,zenburn-fg-1))))))
 
 (defvar date_added "\n  :PROPERTIES:\n  :DATE_ADDED: %U\n  :END:\n")
 
