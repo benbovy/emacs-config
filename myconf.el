@@ -412,5 +412,10 @@
 (require 'calfw-org)
 
 
+; Disable clang check, gcc check works better
+;(setq-default flycheck-disabled-checkers
+;              (append flycheck-disabled-checkers
+;                      '(c/c++-clang)))
+
 (provide 'myconf)
 ;;;  myconf.el ends here
