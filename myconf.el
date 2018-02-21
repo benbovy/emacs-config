@@ -343,9 +343,9 @@
 (setq org-habit-graph-column 50)
 (setq org-habit-preceding-days 4)
 
-;; refile to current org file or agenda org files (max 9 deep levels)
-(setq org-refile-targets (quote ((nil :maxlevel . 9)
-                                 (org-agenda-files :maxlevel . 9))))
+;; refile up to 3 levels in current/agenda files
+(setq org-refile-targets (quote ((nil :maxlevel . 3)
+                                 (org-agenda-files :maxlevel . 3))))
 
 (setq org-todo-keywords
       '((sequence "TODO(t)" "|" "DONE(d!)")
@@ -373,7 +373,9 @@
         ("b" "bank transfer" entry (file "~/Dropbox/Org/refile.org")
          ,(concat "* TODO transfer %? to (account: ) :bank:" date_added))
         ("s" "shop" entry (file "~/Dropbox/Org/refile.org")
-         ,(concat "* TODO buy :shop:" date_added))))
+         ,(concat "* TODO buy :shop:" date_added))
+        ("p" "new project" entry (file "~/Dropbox/Org/projects.org")
+         "* %? %^g")))
 
 (setq org-tag-alist (quote ((:startgroup)
                             ("@GFZ" . ?G)
@@ -396,7 +398,7 @@
       '(("c" "Custom agenda view"
          ((agenda "" nil)
           (tags "refile"
-                     ((org-agenda-overriding-header "Tasks to Refile")
+                     ((org-agenda-overriding-header "Tasks to refile")
                       (org-tags-match-list-sublevels nil)))
           (todo "NEXT"
                      ((org-agenda-overriding-header "Next tasks")
