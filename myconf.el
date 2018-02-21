@@ -349,14 +349,14 @@
 
 (setq org-todo-keywords
       '((sequence "TODO(t)" "|" "DONE(d!)")
-        (sequence "IN-PROGRESS(i)" "WAITING(w@/!)" "|" "CANCELED(c@)")))
+        (sequence "NEXT(n)" "WAITING(w@/!)" "|" "CANCELED(c@)")))
 
 (setq org-use-fast-todo-selection t)
 
 (zenburn-with-color-variables
   (setq org-todo-keyword-faces
         `(("WAITING" :foreground ,zenburn-orange :weight bold)
-          ("IN-PROGRESS" :foreground ,zenburn-blue :weight bold)
+          ("NEXT" :foreground ,zenburn-blue :weight bold)
           ("CANCELED" :foreground ,zenburn-green :weight bold))))
 
 (defvar date_added "\n  :PROPERTIES:\n  :DATE_ADDED: %U\n  :END:\n")
@@ -396,8 +396,13 @@
       '(("c" "Custom agenda view"
          ((agenda "" nil)
           (tags "refile"
-                ((org-agenda-overriding-header "Tasks to Refile")
-                 (org-tags-match-list-sublevels nil)))
+                     ((org-agenda-overriding-header "Tasks to Refile")
+                      (org-tags-match-list-sublevels nil)))
+          (todo "NEXT"
+                     ((org-agenda-overriding-header "Next tasks")
+                      (org-tags-match-list-sublevels t)
+                      (org-agenda-sorting-strategy
+                       '(todo-state-down effort-up priority-down category-keep))))
           ))))
 
 
