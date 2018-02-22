@@ -466,6 +466,9 @@
                  (org-agenda-skip-function 'bh/skip-stuck-projects)
                  (org-agenda-sorting-strategy
                   '(category-keep))))
+          (tags "+idea+LEVEL=1"
+                ; TODO: random filter ideas
+                ((org-agenda-overriding-header "Five randomly selected ideas")))
           ))))
 
 
