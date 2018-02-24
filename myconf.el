@@ -308,6 +308,16 @@
    )
 )
 
+;; -- magit color fix for terminal: remove when emacs 26 (true color support)
+ (custom-theme-set-faces
+  'zenburn
+  `(magit-diff-added ((t (:background "#005f5f" :foreground "#ddffdd"))))
+;;  `(magit-diff-added-highlight ((t (:background "#3F5F3F" :foreground "#cceecc"))))
+;;  `(magit-diff-removed ((t (:background "#5f005f" :foreground "#ffdddd"))))
+;;  `(magit-diff-removed-highlight ((t (:background "#663333" :foreground "#eecccc"))))
+ )
+
+
 ;; -- counsel projectile
 (prelude-require-packages '(counsel-projectile))
 (require 'counsel-projectile)
