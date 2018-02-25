@@ -261,7 +261,8 @@
       )
 
 
-;; -- Python: use elpy instead of anaconda-mode
+;; -- Python
+;; use elpy instead of anaconda-mode
 ;; (elpy-enable)
 ;; (add-hook 'elpy-mode-hook (lambda () (anaconda-mode 0)))
 
@@ -272,14 +273,20 @@
 ;; (when (require 'flycheck nil t)
 ;;    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
 
-;; -- Python: anaconda-mode  doc
+;; anaconda-mode doc
 (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
 
+;; disable function name in model line in Python mode
+;; really bad performance for big files (test modules with many functions)
+;; I don't use it (Python functions are short)
+(add-hook 'python-mode-hook (lambda () (which-function-mode -1)))
 
-;; -- Trick to select conda environment within emacs (using elpy or anaconda-mode)
-;;    (see http://emacs.stackexchange.com/questions/20092/using-conda-environments-in-emacs)
-;;    emacs must be run from a conda env activated!!
-;;    TODO: by default select conda base environment if none is activated?
+
+;; -- Conda
+;; Trick to select conda environment within emacs
+;; (see http://emacs.stackexchange.com/questions/20092/using-conda-environments-in-emacs)
+;; emacs must be run from a conda env activated!!
+;; TODO: by default select conda base environment if none is activated?
 (if (getenv "CONDA_PREFIX")
     (progn
      (setq conda-env-dir (file-name-directory (directory-file-name (getenv "CONDA_PREFIX"))))
