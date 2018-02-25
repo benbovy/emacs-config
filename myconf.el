@@ -268,6 +268,7 @@
 ;; -- Trick to select conda environment within emacs (using elpy or anaconda-mode)
 ;;    (see http://emacs.stackexchange.com/questions/20092/using-conda-environments-in-emacs)
 ;;    emacs must be run from a conda env activated!!
+;;    TODO: by default select conda base environment if none is activated?
 (if (getenv "CONDA_PREFIX")
     (progn
      (setq conda-env-dir (file-name-directory (directory-file-name (getenv "CONDA_PREFIX"))))
@@ -275,6 +276,8 @@
      (setenv "WORKON_HOME" conda-env-dir)
      (pyvenv-mode 1)
      (defalias 'conda-workon 'pyvenv-workon)
+     (pyvenv-activate (getenv "CONDA_PREFIX"))
+     (message "Conda environment %s is activated" (getenv "CONDA_PREFIX"))
     )
 )
 
