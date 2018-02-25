@@ -293,7 +293,7 @@
 )
 
 ;; -- multi-term settings
-(setq multi-term-program "/bin/bash")
+(setq multi-term-program "/usr/local/bin/bash")
 
 
 ;; -- Git gutter
