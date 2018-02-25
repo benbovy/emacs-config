@@ -158,6 +158,7 @@
   )
 (add-hook 'flycheck-mode-hook 'flycheck-mode-keys)
 
+
 ;; --- handle tmux's xterm-keys
 ;; put the following line in your ~/.tmux.conf:
 ;;   setw -g xterm-keys on
@@ -261,8 +262,18 @@
 
 
 ;; -- Python: use elpy instead of anaconda-mode
-;(elpy-enable)
-;(add-hook 'elpy-mode-hook (lambda () (anaconda-mode -1)))
+;; (elpy-enable)
+;; (add-hook 'elpy-mode-hook (lambda () (anaconda-mode 0)))
+
+;; (setq python-shell-interpreter "ipython"
+;;       python-shell-interpreter-args "-i --simple-prompt")
+
+;; disable flymake used by elpy (we use flycheck instead)
+;; (when (require 'flycheck nil t)
+;;    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
+
+;; -- Python: anaconda-mode  doc
+(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
 
 
 ;; -- Trick to select conda environment within emacs (using elpy or anaconda-mode)
