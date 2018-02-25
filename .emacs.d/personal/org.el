@@ -1,4 +1,4 @@
-;;; org-conf.el --- My Org configuration -*- lexical-binding: t -*-
+;;; org.el --- My Org configuration
 ;;;
 ;;;
 
@@ -12,80 +12,10 @@
 (require 'org-habit)
 (require 'org-capture)
 
-;; -- custom functions
+(require 'zenburn-theme)
+(require 'windmove)
 
-;; from http://doc.norang.ca/org-mode.html
-(defun lava-org-skip-non-stuck-projects ()
-  "Skip trees that are not stuck projects."
-  (save-restriction
-    (widen)
-    (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
-      (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
-             (has-next ))
-        (save-excursion
-          (forward-line 1)
-          (while (and (not has-next) (< (point) subtree-end) (re-search-forward "^\\*+ NEXT " subtree-end t))
-            (unless (member "WAITING" (org-get-tags-at))
-              (setq has-next t))))
-        (if has-next
-            next-headline
-          nil)) ; a stuck project, has subtasks but no next task
-      )))
-
-(defun lava-org-skip-stuck-projects ()
-  "Skip trees that are stuck projects."
-  (save-restriction
-    (widen)
-    (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
-      (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
-             (has-next ))
-        (save-excursion
-          (forward-line 1)
-          (while (and (not has-next) (< (point) subtree-end) (re-search-forward "^\\*+ NEXT " subtree-end t))
-            (unless (member "WAITING" (org-get-tags-at))
-              (setq has-next t))))
-        (if has-next
-            nil ; a stuck project, has subtasks but no next task
-          next-headline))
-      )))
-
-
-;; from https://emacs.stackexchange.com/questions/24270/org-mode-pick-random-task-from-custom-agenda-view
-(defvar lava-org-compare-random-refresh nil
-  "Whether `lava-org-compare-randomly' should refresh its keys.")
-
-(defun lava-org-compare-get-marker (entry)
-  "Return the marker for ENTRY."
-  (get-text-property 1 'org-marker entry))
-
-(defun lava-org-compare-randomly-update-sort-key (entry table generator)
-  "Return sort key for ENTRY in TABLE, generating it with GENERATOR if necessary."
-  (let* ((marker (lava-org-compare-get-marker entry))
-         (hash-key `(,(marker-buffer marker) . ,(marker-position marker))))
-    (or (gethash hash-key table)
-        (puthash hash-key (funcall generator entry) table))))
-
-;;(setq table (make-hash-table :test #'equal))
-;;(setq generator 'random)
-
-(defun lava-org-compare-randomly-by (generator)
-  "Return a random comparator using GENERATOR."
-  (let ((table (make-hash-table :test #'equal)))
-    (lambda (x y)
-      (when lava-org-compare-random-refresh
-        (clrhash table)
-        (setq lava-org-compare-random-refresh nil))
-      (let ((x-val (lava-org-compare-randomly-update-sort-key x table generator))
-            (y-val (lava-org-compare-randomly-update-sort-key y table generator)))
-        (cond
-         ((= x-val y-val)  nil)
-         ((< x-val y-val)   -1)
-         ((> x-val y-val)   +1))))))
-
-(defun lava-org-compare-randomly ()
-  "Return a comparator implementing a random shuffle."
-  (lava-org-compare-randomly-by (lambda (_) (random))))
-
+;; note: this module use functions defined in personal/preload/org-lava.el
 
 ;; -- configuration
 
@@ -134,7 +64,7 @@
    'zenburn
    `(org-agenda-done ((t (:foreground ,zenburn-fg-1))))))
 
-(defvar lava-org-date_added "\n  :PROPERTIES:\n  :DATE_ADDED: %U\n  :END:\n")
+(defvar org-lava-date_added "\n  :PROPERTIES:\n  :DATE_ADDED: %U\n  :END:\n")
 
 (setq org-capture-templates
       `((" " "simple entry" entry (file "~/Dropbox/Org/refile.org")
@@ -142,17 +72,17 @@
         ("p" "new project" entry (file "~/Dropbox/Org/projects.org")
          "* %? %^g")
         ("t" "todo" entry (file "~/Dropbox/Org/refile.org")
-         ,(concat "* TODO %?" lava-org-date_added))
+         ,(concat "* TODO %?" org-lava-date_added))
         ("n" "note" entry (file "~/Dropbox/Org/refile.org")
-         ,(concat "* %? :note:" lava-org-date_added))
+         ,(concat "* %? :note:" org-lava-date_added))
         ("e" "event" entry (file "~/Dropbox/Org/refile.org")
-         ,(concat "* %? %^T :event:" lava-org-date_added))
+         ,(concat "* %? %^T :event:" org-lava-date_added))
         ("m" "message" entry (file "~/Dropbox/Org/refile.org")
-         ,(concat "* TODO contact %? :msg:" lava-org-date_added))
+         ,(concat "* TODO contact %? :msg:" org-lava-date_added))
         ("b" "bank transfer" entry (file "~/Dropbox/Org/refile.org")
-         ,(concat "* TODO transfer %? :bank:" lava-org-date_added))
+         ,(concat "* TODO transfer %? :bank:" org-lava-date_added))
         ("s" "shop" entry (file "~/Dropbox/Org/refile.org")
-         ,(concat "* TODO buy :shop:" lava-org-date_added))))
+         ,(concat "* TODO buy :shop:" org-lava-date_added))))
 
 (setq org-tag-alist (quote ((:startgroup)
                             ("@GFZ" . ?G)
@@ -190,20 +120,20 @@
           (tags "+LEVEL=1-TODO=\"CANCELED\""
                 ((org-agenda-overriding-header "Stuck projects")
                  (org-agenda-files '("~/Dropbox/org/projects.org"))
-                 (org-agenda-skip-function 'lava-org-skip-non-stuck-projects)
+                 (org-agenda-skip-function 'org-lava-skip-non-stuck-projects)
                  (org-agenda-sorting-strategy
                   '(category-keep))))
           (tags "+LEVEL=1"
                 ((org-agenda-overriding-header "All other projects")
                  (org-agenda-files '("~/Dropbox/org/projects.org"))
-                 (org-agenda-skip-function 'lava-org-skip-stuck-projects)
+                 (org-agenda-skip-function 'org-lava-skip-stuck-projects)
                  (org-agenda-sorting-strategy
                   '(category-keep))))
           (tags "+idea+LEVEL=1"
                 ((org-agenda-overriding-header "Five randomly selected ideas")
                  (org-agenda-max-entries 5)
-                 (org-agenda-cmp-user-defined (lava-org-compare-randomly))
-                 (lava-org-compare-random-refresh  t)
+                 (org-agenda-cmp-user-defined (org-lava-compare-randomly))
+                 (org-lava-compare-random-refresh  t)
                  (org-agenda-sorting-strategy '(user-defined-up))))
           ))))
 
@@ -215,5 +145,5 @@
 (add-hook 'org-shiftright-final-hook 'windmove-right)
 
 
-(provide 'org-conf)
-;;;  org-conf.el ends here
+(provide 'org)
+;;;  org.el ends here
