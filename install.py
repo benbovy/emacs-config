@@ -23,10 +23,12 @@ for d in (EMACS_CONF_DIR, EMACS_PERS_DIR, EMACS_PRELOAD_DIR):
     except OSError:
         pass
 
-for elf in glob.iglob(".emacs.d/**/*.el", recursive=True):
+for elf in glob.iglob("dotemacs/**/*.el", recursive=True):
+    elf_target = os.path.join(THIS_DIR, elf)
+    elf_link = os.path.join(USER_DIR,
+                            elf.replace("dotemacs", ".emacs.d"))
     try:
-        os.symlink(os.path.join(THIS_DIR, elf),
-                   os.path.join(USER_DIR, elf))
-        print("link " + elf)
+        os.symlink(elf_target, elf_link)
+        print("link " + elf_link + " -> " + elf_target)
     except FileExistsError:
         print("skip " + elf)
