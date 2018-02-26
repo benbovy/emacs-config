@@ -8,16 +8,22 @@
 
 ;;; Code:
 
+(require 'use-package)
+
+
 ;; -- iedit + keybinding that works on a terminal
 (prelude-require-package 'iedit)
-(require 'iedit)
-(global-set-key (kbd "C-c ;") 'iedit-mode)
+
+(use-package iedit
+  :bind ("C-c ;" . iedit-mode))
 
 
 ;; -- wgrep + zenburn compatible colors
 (prelude-require-package 'wgrep)
+
 (require 'wgrep)
 (require 'zenburn-theme)
+
 (zenburn-with-color-variables
   (custom-theme-set-faces
    'zenburn
@@ -35,8 +41,9 @@
 
 ;; -- avy
 (prelude-require-package 'avy)
-(require 'avy)
-(global-set-key (kbd "M-g") 'avy-goto-word-or-subword-1)
+
+(use-package avy
+  :bind ("M-g" . avy-goto-word-or-subword-1))
 
 
 (provide 'search-replace)

@@ -148,6 +148,8 @@
 ;; -- git / diff
 (prelude-require-package 'git-gutter)
 
+(require 'zenburn-theme)
+
 (use-package diff-hl
   :config
   (global-diff-hl-mode -1))
@@ -157,36 +159,31 @@
   :requires (linum)
   :config
   (global-git-gutter-mode +1)
-  (git-gutter:linum-setup))
+  (git-gutter:linum-setup)
 
-(custom-set-variables
- '(git-gutter:modified-sign "!")
- '(git-gutter:added-sign "+")
- '(git-gutter:deleted-sign "-"))
+  (custom-set-variables
+   '(git-gutter:modified-sign "!")
+   '(git-gutter:added-sign "+")
+   '(git-gutter:deleted-sign "-"))
 
-(require 'zenburn-theme)
+  (zenburn-with-color-variables
+    (custom-theme-set-faces
+     'zenburn
+     ;; copied from zenburn-theme colors set for diff-hl
+     `(git-gutter:modified ((t (:foreground ,zenburn-blue
+                                            :background ,zenburn-blue-2))))
+     `(git-gutter:added ((t (:foreground ,zenburn-green+1
+                                         :background ,zenburn-green-1))))
+     `(git-gutter:deleted ((t (:foreground ,zenburn-red+1
+                                           :background ,zenburn-red-1))))))
+  )
 
-(zenburn-with-color-variables
+(use-package magit
+  :config
+  ;; -- magit color fix for terminal: remove when emacs 26 (true color support)
   (custom-theme-set-faces
    'zenburn
-   ;; copied from zenburn-theme colors set for diff-hl
-   `(git-gutter:modified ((t (:foreground ,zenburn-blue
-                              :background ,zenburn-blue-2))))
-   `(git-gutter:added ((t (:foreground ,zenburn-green+1
-                           :background ,zenburn-green-1))))
-   `(git-gutter:deleted ((t (:foreground ,zenburn-red+1
-                             :background ,zenburn-red-1))))
-   )
-)
-
-;; -- magit color fix for terminal: remove when emacs 26 (true color support)
- (custom-theme-set-faces
-  'zenburn
-  `(magit-diff-added ((t (:background "#005f5f" :foreground "#ddffdd"))))
-;;  `(magit-diff-added-highlight ((t (:background "#3F5F3F" :foreground "#cceecc"))))
-;;  `(magit-diff-removed ((t (:background "#5f005f" :foreground "#ffdddd"))))
-;;  `(magit-diff-removed-highlight ((t (:background "#663333" :foreground "#eecccc"))))
- )
+   `(magit-diff-added ((t (:background "#005f5f" :foreground "#ddffdd"))))))
 
 
 ;; -- counsel projectile
