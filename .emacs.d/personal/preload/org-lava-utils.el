@@ -1,4 +1,4 @@
-;;; org-lava.el --- Org utils -*- lexical-binding: t -*-
+;;; org-lava-utils.el --- Org utils -*- lexical-binding: t -*-
 ;;;
 ;;;
 
@@ -80,5 +80,5 @@
   (org-lava-compare-randomly-by (lambda (_) (random))))
 
 
-(provide 'org-lava)
-;;;  org-lava.el ends here
+(provide 'org-lava-utils)
+;;;  org-lava-utils.el ends here
