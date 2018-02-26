@@ -9,24 +9,11 @@
 ;;; Code:
 
 ;; -- additional packages not provided by Prelude
-(require 'package)
-(setq package-enable-at-startup nil)
-(package-initialize)
-
-;; (add-to-list 'package-archives
-;;              '("marmalade" .
-;;                "http://marmalade-repo.org/packages/"))
-(prelude-require-packages '(nginx-mode
-                            company-web
-                            linum
-                            linum-off
-                            editorconfig
-                            multi-term
+(prelude-require-packages '(editorconfig
                             ranger
                             use-package))
 
 
-;; This is only needed once, near the top of the file
 (eval-when-compile
   (require 'use-package))
 
@@ -51,17 +38,6 @@
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
 
-
-;; -- split windows preferably
-;;(setq split-width-threshold nil)  ;; vertical split.
-;;(setq split-width-threshold 1)    ;; horizontal-split
-;;(setq split-height-threshold 200)
-
-
-;; -- custom ace-window shortcut (<s-w>, i.e., Command-w doesn't work in terminal)
-(global-set-key (kbd "M-p") 'ace-window)
-
-
 ;; -- disable system bip
 (setq visible-bell t)
 
@@ -70,72 +46,88 @@
 (cua-mode 1)
 
 
-;; -- line numbers in left margin (+ auto off)
-(require 'linum-off)
-(require 'linum)
+;; -- split windows preferably
+;;(setq split-width-threshold nil)  ;; vertical split.
+;;(setq split-width-threshold 1)    ;; horizontal-split
+;;(setq split-height-threshold 200)
 
-(global-linum-mode 0)
-(global-set-key (kbd "C-x n") 'linum-mode)
 
-;; separate line numbers from text
-;; fancy but very slow (that's why limum mode is disabled by default)
+;; -- custom ace-window shortcut (<s-w>, i.e., Command-w doesn't work in terminal)
+(use-package ace-window
+  :bind* ("M-o" . ace-window))
+
+
+;; -- disable advanced purist mode
+(use-package prelude-custom
+  :config
+  (setq prelude-guru nil))
+
+
+;; -- line numbers
+(prelude-require-packages '(linum linum-off))
+
+(use-package linum
+  :bind ("C-x n" . linum-mode)
+  :config
+  (global-linum-mode 0))
+
 (defvar-local linum-format-fmt nil)
 
-(unless window-system
-  (add-hook 'linum-before-numbering-hook
-            (lambda ()
-              (setq-local linum-format-fmt
-                          (let ((w (length (number-to-string
-                                            (count-lines (point-min) (point-max))))))
-                            (concat "%" (number-to-string w) "d"))))))
-
-(defun linum-format-func(line)
+(defun linum-format-func (line)
+  "Add separator between LINE numbers and text."
   (concat
    (propertize (format linum-format-fmt line) 'face 'linum)
    (propertize " " 'face 'mode-line)))
 
-(unless window-system
-  (setq linum-format 'linum-format-func))
+(defun linum-set-format-fmt ()
+  "Dynamically compute linum-format.  Fancy but still slow!"
+  (setq-local linum-format-fmt
+              (let ((w (length (number-to-string
+                                (count-lines (point-min) (point-max))))))
+                (concat "%" (number-to-string w) "d"))))
 
-
-;; -- disable guru mode
-(require 'prelude-custom)
-(setq prelude-guru nil)
-
-
-;; -- disable flyspell
-;; (setq prelude-flyspell nil)
-
-
-;; -- set en_US as default dictionary
-(require 'ispell)
-(setq ispell-dictionary "en_US")
-
-
-;;  -- flycheck settings
-(require 'flycheck)
-
-(add-hook 'after-init-hook #'global-flycheck-mode)
-(setq flycheck-check-syntax-automatically '(mode-enabled save))
-(setq flycheck-indication-mode 'left-fringe)
-(setq-default flycheck-emacs-lisp-load-path 'inherit)
-
-(defun flycheck-buffer-and-list-errors()
-  "execute command flycheck-buffer and flycheck-list-errors"
-  (interactive)
-  (flycheck-buffer)
-  (flycheck-list-errors)
-  (other-window 1)
+(use-package linum
+  :unless window-system
+  :init
+  (add-hook 'linum-before-numbering-hook 'linum-set-format-fmt)
+  :config
+  (setq linum-format 'linum-format-func)
   )
 
-(defun flycheck-mode-keys()
-  "key map for flycheck-mode"
-  (local-set-key (kbd "<f7>") 'flycheck-buffer-and-list-errors)
+
+;; -- spell checker
+(use-package prelude-custom
+  :disabled
+  :config
+  (setq prelude-flyspell nil))
+
+(use-package ispell
+  :config
+  (setq ispell-dictionary "en_US"))
+
+
+;;  -- linter
+(use-package flycheck
+  :bind ("<f7>" . flycheck-buffer-and-list-errors)
+  :init
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  :config
+  (defun flycheck-buffer-and-list-errors ()
+    "Execute command flycheck-buffer and flycheck-list-errors."
+    (interactive)
+    (flycheck-buffer)
+    (flycheck-list-errors)
+    (other-window 1)
+    )
+  (setq flycheck-check-syntax-automatically '(mode-enabled save))
+  (setq flycheck-indication-mode 'left-fringe)
+  (setq-default flycheck-emacs-lisp-load-path 'inherit)
   )
 
-(add-hook 'flycheck-mode-hook 'flycheck-mode-keys)
 
-;; -- web-mode settings
+;; -- web
+(prelude-require-packages '(nginx-mode company-web))
+
 (use-package web-mode
   :init
   (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
@@ -146,30 +138,38 @@
   )
 
 
-;; -- multi-term settings
-(require 'multi-term)
-(setq multi-term-program "/usr/local/bin/bash")
+;; -- multi-term
+(prelude-require-package 'multi-term)
+(use-package multi-term
+  :config
+  (setq multi-term-program "/usr/local/bin/bash"))
 
 
-;; -- Git gutter
-(prelude-require-packages '(git-gutter))
-(require 'git-gutter)
-(require 'zenburn-theme)
-(require 'diff-hl)
+;; -- git / diff
+(prelude-require-package 'git-gutter)
 
-(global-diff-hl-mode -1)    ;; git-gutter works better in terminal than diff-hl
-(global-git-gutter-mode +1)
-(git-gutter:linum-setup)
+(use-package diff-hl
+  :config
+  (global-diff-hl-mode -1))
+
+(use-package git-gutter
+  :after (diff-hl)
+  :requires (linum)
+  :config
+  (global-git-gutter-mode +1)
+  (git-gutter:linum-setup))
 
 (custom-set-variables
  '(git-gutter:modified-sign "!")
  '(git-gutter:added-sign "+")
  '(git-gutter:deleted-sign "-"))
 
-;; copied from zenburn colors set for diff-hl
+(require 'zenburn-theme)
+
 (zenburn-with-color-variables
   (custom-theme-set-faces
    'zenburn
+   ;; copied from zenburn-theme colors set for diff-hl
    `(git-gutter:modified ((t (:foreground ,zenburn-blue
                               :background ,zenburn-blue-2))))
    `(git-gutter:added ((t (:foreground ,zenburn-green+1
@@ -191,14 +191,13 @@
 
 ;; -- counsel projectile
 (prelude-require-package 'counsel-projectile)
-(require 'counsel-projectile)
-(counsel-projectile-mode +1)
+(use-package counsel-projectile
+  :config
+  (counsel-projectile-mode +1))
 
 
 ;; -- calfw
 (prelude-require-packages '(calfw calfw-org))
-(require 'calfw)
-(require 'calfw-org)
 
 
 (provide 'general)
