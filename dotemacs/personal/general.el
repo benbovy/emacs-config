@@ -126,7 +126,7 @@
 
 
 ;; -- web
-(prelude-require-packages '(nginx-mode company-web))
+(prelude-require-packages '(nginx-mode company-web typescript-mode))
 
 (use-package web-mode
   :init
@@ -135,6 +135,18 @@
   :config
   (setq web-mode-engines-alist
         '(("django"    . "\\.html\\'")))
+  )
+
+(use-package js2-mode
+  :config
+  (setq js-indent-level 2)
+  )
+
+(setq js-indent-level 2)
+
+(use-package typescript-mode
+  :config
+  (setq typescript-indent-level 2)
   )
 
 
