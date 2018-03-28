@@ -15,7 +15,7 @@
 (use-package mu4e
   :config
   (setq mail-user-agent 'mu4e-user-agent)
-  (setq mu4e-get-mail-command "mbsync gmail")
+  (setq mu4e-get-mail-command "mbsync --all")
   (setq mu4e-update-interval 300)   ;; 5 mins
 
   ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
@@ -32,6 +32,13 @@
   (setq mu4e-maildir-shortcuts
         '(("/gmail/inbox"  . ?i)
           ("/gmail/sent"   . ?s)))
+
+  ;; html2text on macos
+  ;; (setq mu4e-html2text-command
+  ;;       "textutil -stdin -format html -convert txt -stdout")
+
+  ;; html with dark theme
+  (setq shr-color-visible-luminance-min 80)
   )
 
 
