@@ -11,7 +11,8 @@
 ;; -- additional packages not provided by Prelude
 (prelude-require-packages '(editorconfig
                             ranger
-                            use-package))
+                            use-package
+                            smex))
 
 
 (eval-when-compile
