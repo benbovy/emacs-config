@@ -156,6 +156,10 @@
   )
 
 
+;; -- slideshow (remark)
+(prelude-require-package 'remark-mode)
+
+
 ;; -- multi-term
 (prelude-require-package 'multi-term)
 (use-package multi-term
