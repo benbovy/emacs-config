@@ -200,12 +200,12 @@
                                            :background ,zenburn-red-1))))))
   )
 
-(use-package magit
-  :config
-  ;; -- magit color fix for terminal: remove when emacs 26 (true color support)
-  (custom-theme-set-faces
-   'zenburn
-   `(magit-diff-added ((t (:background "#005f5f" :foreground "#ddffdd"))))))
+;; (use-package magit
+;;   :config
+;;   ;; -- magit color fix for terminal: remove when emacs 26 (true color support)
+;;   (custom-theme-set-faces
+;;    'zenburn
+;;    `(magit-diff-added ((t (:background "#005f5f" :foreground "#ddffdd"))))))
 
 
 ;; -- counsel projectile
