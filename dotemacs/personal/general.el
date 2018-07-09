@@ -37,7 +37,12 @@
 
 ;; -- don't show menu bar nor scroll bar
 (menu-bar-mode 0)
-(scroll-bar-mode 0)
+
+(if (display-graphic-p)
+    (progn
+      (tool-bar-mode -1)
+      (scroll-bar-mode -1)))
+
 
 ;; -- disable system bip
 (setq visible-bell t)
