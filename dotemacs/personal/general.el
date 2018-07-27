@@ -219,5 +219,18 @@
 (prelude-require-packages '(calfw calfw-org))
 
 
+;; -- cmake projects
+(prelude-require-package 'rtags)
+(prelude-require-package 'cmake-ide)
+
+(use-package cmake-ide
+  :config
+  (setq cmake-ide-build-pool-dir "~/.emacs-cmake-ide")
+  (setq cmake-ide-build-pool-use-persistent-naming t))
+
+(require 'rtags)
+(cmake-ide-setup)
+
+
 (provide 'general)
 ;;;  general.el ends here
