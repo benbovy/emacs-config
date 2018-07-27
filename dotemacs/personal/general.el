@@ -232,5 +232,23 @@
 (cmake-ide-setup)
 
 
+;; -- whitespace
+(use-package whitespace
+  :commands whitespace-mode
+  :init
+  (setq whitespace-style '(face empty tabs lines-tail trailing))
+  (global-whitespace-mode t)
+  (setq whitespace-global-modes
+        '(c-mode c++-mode lb-datalog-mode java-mode emacs-lisp-mode
+                 shell-script-mode sh-mode python-mode))
+  ;; c hook
+  (add-hook 'c-mode-common-hook '(lambda ()
+                                   (interactive)
+                                   (whitespace-mode 0)
+                                   (setq-local whitespace-line-column 90)
+                                   (whitespace-mode 1)))
+  )
+
+
 (provide 'general)
 ;;;  general.el ends here
