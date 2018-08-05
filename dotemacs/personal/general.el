@@ -111,6 +111,9 @@
   :config
   (setq ispell-dictionary "en_US"))
 
+(use-package flyspell
+  :diminish (flyspell-mode . " ⓢ"))
+
 
 ;;  -- linter
 (use-package flycheck
@@ -128,6 +131,7 @@
   (setq flycheck-check-syntax-automatically '(mode-enabled save))
   (setq flycheck-indication-mode 'left-fringe)
   (setq-default flycheck-emacs-lisp-load-path 'inherit)
+  :diminish (flycheck-mode . " Ⓢ")
   )
 
 
@@ -247,7 +251,12 @@
                                    (whitespace-mode 0)
                                    (setq-local whitespace-line-column 90)
                                    (whitespace-mode 1)))
+  :diminish (whitespace-mode . " ⓦ")
   )
+
+(use-package smartparens
+  :diminish (smartparens-mode . " ⓟ"))
+
 
 
 (provide 'general)
