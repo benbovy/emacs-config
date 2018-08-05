@@ -254,9 +254,28 @@
   :diminish (whitespace-mode . " ⓦ")
   )
 
+;; -- smartparens
 (use-package smartparens
   :diminish (smartparens-mode . " ⓟ"))
 
+
+;; -- expand-region
+(use-package expand-region
+  :bind (("C-c SPC" . er/expand-region))
+  )
+
+
+;; -- smart-mode-line
+;; TODO: tweak powerline theme colors with zenburn
+;; (prelude-require-package 'smart-mode-line)
+;; (prelude-require-package 'smart-mode-line-powerline-theme)
+;; (use-package smart-mode-line
+;;   :custom
+;;   (sml/no-confirm-load-theme t)
+;;   (sml/theme 'powerline)
+;;   :init
+;;   (add-hook 'after-init-hook #'sml/setup)
+;;   )
 
 
 (provide 'general)

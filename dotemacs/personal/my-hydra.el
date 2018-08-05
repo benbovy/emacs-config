@@ -101,17 +101,17 @@ _k_ delete current      _z_ undo          _a_ select (ace)
 _o_ delete others       _y_ redo          _f_ toggle follow mode
 "
     ("q" nil)
-                                        ; Navigation
+    ;; Navigation
     ("<left>" windmove-left)
     ("<down>" windmove-down)
     ("<up>" windmove-up)
     ("<right>" windmove-right)
-                                        ; Resize
+    ;; Resize
     ("p" enlarge-window-horizontally)
     ("m" shrink-window-horizontally)
     ("C-p" enlarge-window)
     ("C-m" shrink-window)
-                                        ; Split
+    ;; Split
     ("v" (lambda ()
            (interactive)
            (split-window-right)
@@ -122,16 +122,16 @@ _o_ delete others       _y_ redo          _f_ toggle follow mode
            (split-window-below)
            (windmove-down))
      )
-                                        ; Delete
+    ;; Delete
     ("k" delete-window)
     ("o" delete-other-windows)
-                                        ; Undo/Redo
+    ;; Undo/Redo
     ("z" (progn
            (winner-undo)
            (setq this-command 'winner-undo))
      )
     ("y" winner-redo)
-                                        ; Misc
+    ;; Misc
     ("f" follow-mode :color blue)
     ("a" (lambda ()
            (interactive)
