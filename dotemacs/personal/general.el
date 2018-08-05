@@ -228,12 +228,13 @@
 (prelude-require-package 'cmake-ide)
 
 (use-package cmake-ide
-  :config
-  (setq cmake-ide-build-pool-dir "~/.emacs-cmake-ide")
-  (setq cmake-ide-build-pool-use-persistent-naming t))
-
-(require 'rtags)
-(cmake-ide-setup)
+  :custom
+  (cmake-ide-build-pool-dir "~/.emacs-cmake-ide")
+  (cmake-ide-build-pool-use-persistent-naming t)
+  :init
+  (require 'rtags)
+  (add-hook 'after-init-hook #'cmake-ide-setup)
+  )
 
 
 ;; -- whitespace
