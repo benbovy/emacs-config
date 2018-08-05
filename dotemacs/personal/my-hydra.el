@@ -74,7 +74,71 @@ _k_ kill        _s_ split
     ;; Misc
     ("t" sp-transpose-sexp)
     ("j" sp-join-sexp)
-    ("s" sp-split-sexp)))
+    ("s" sp-split-sexp))
+  )
+
+
+(use-package ace-window
+  :ensure t
+  :bind (("M-w" . hydra-window/body))
+  :init
+  (defhydra hydra-window (:hint nil)
+    "
+.: Windows :.
+
+_q_ quit
+
+^Navigatqion^      ^Resize^                    ^Split^
+-------------------------------------------------------------------------------
+_<left>_  ←        _p_   enlarge horizontal    _v_ vertical
+_<down>_  ↓        _m_   shrink horizontal     _h_ horizontal
+_<up>_    ↑        _C-p_ enlarge vertical
+_<right>_ →        _C-m_ shrink vertical
+
+^Delete^                ^Undo/Redo^       ^Misc^
+-------------------------------------------------------------------------------
+_k_ delete current      _z_ undo          _a_ select (ace)
+_o_ delete others       _y_ redo          _f_ toggle follow mode
+"
+    ("q" nil)
+                                        ; Navigation
+    ("<left>" windmove-left)
+    ("<down>" windmove-down)
+    ("<up>" windmove-up)
+    ("<right>" windmove-right)
+                                        ; Resize
+    ("p" enlarge-window-horizontally)
+    ("m" shrink-window-horizontally)
+    ("C-p" enlarge-window)
+    ("C-m" shrink-window)
+                                        ; Split
+    ("v" (lambda ()
+           (interactive)
+           (split-window-right)
+           (windmove-right))
+     )
+    ("h" (lambda ()
+           (interactive)
+           (split-window-below)
+           (windmove-down))
+     )
+                                        ; Delete
+    ("k" delete-window)
+    ("o" delete-other-windows)
+                                        ; Undo/Redo
+    ("z" (progn
+           (winner-undo)
+           (setq this-command 'winner-undo))
+     )
+    ("y" winner-redo)
+                                        ; Misc
+    ("f" follow-mode :color blue)
+    ("a" (lambda ()
+           (interactive)
+           (ace-window 1)
+           (add-hook 'ace-window-end-once-hook
+                     'hydra-window/body))))
+  )
 
 
 (provide 'my-hydra)
