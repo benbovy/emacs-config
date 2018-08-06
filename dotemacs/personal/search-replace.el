@@ -43,7 +43,7 @@
 (prelude-require-package 'avy)
 
 (use-package avy
-  :bind ("M-g" . avy-goto-word-or-subword-1))
+  :bind ("C-c RET" . avy-goto-char))
 
 
 (provide 'search-replace)
