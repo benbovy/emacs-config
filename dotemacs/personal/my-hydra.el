@@ -88,7 +88,7 @@ _k_ kill        _s_ split
 
 _q_ quit
 
-^Navigatqion^      ^Resize^                    ^Split^
+^Navigation^       ^Resize^                    ^Split^
 -------------------------------------------------------------------------------
 _<left>_  ←        _p_   enlarge horizontal    _v_ vertical
 _<down>_  ↓        _m_   shrink horizontal     _h_ horizontal
@@ -99,6 +99,7 @@ _<right>_ →        _C-m_ shrink vertical
 -------------------------------------------------------------------------------
 _k_ delete current      _z_ undo          _a_ select (ace)
 _o_ delete others       _y_ redo          _f_ toggle follow mode
+^^                      ^^                _s_ swap
 "
     ("q" nil)
     ;; Navigation
@@ -137,7 +138,8 @@ _o_ delete others       _y_ redo          _f_ toggle follow mode
            (interactive)
            (ace-window 1)
            (add-hook 'ace-window-end-once-hook
-                     'hydra-window/body))))
+                     'hydra-window/body)))
+    ("s" ace-swap-window))
   )
 
 
