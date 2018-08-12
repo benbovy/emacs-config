@@ -212,6 +212,19 @@
 ;;    `(magit-diff-added ((t (:background "#005f5f" :foreground "#ddffdd"))))))
 
 
+;; -- ivy (rich)
+(prelude-require-package 'ivy-rich)
+(use-package ivy-rich
+  :after ivy
+  :custom
+  (ivy-virtual-abbreviate 'full
+                          ivy-rich-switch-buffer-align-virtual-buffer t
+                          ivy-rich-path-style 'abbrev)
+  :config
+  (ivy-set-display-transformer 'ivy-switch-buffer
+                               'ivy-rich-switch-buffer-transformer))
+
+
 ;; -- counsel projectile
 (prelude-require-package 'counsel-projectile)
 (use-package counsel-projectile
