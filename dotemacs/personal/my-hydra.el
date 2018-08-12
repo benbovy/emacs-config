@@ -115,6 +115,7 @@ _<left>_  ←        _p_   enlarge horizontal    _v_ vertical
 _<down>_  ↓        _m_   shrink horizontal     _h_ horizontal
 _<up>_    ↑        _C-p_ enlarge vertical
 _<right>_ →        _C-m_ shrink vertical
+^^                 _b_   balance
 
 ^Delete^                ^Undo/Redo^       ^Misc^
 -------------------------------------------------------------------------------
@@ -133,6 +134,7 @@ _o_ delete others       _y_ redo          _f_ toggle follow mode
   ("m" shrink-window-horizontally)
   ("C-p" enlarge-window)
   ("C-m" shrink-window)
+  ("b" balance-windows)
   ;; Split
   ("v" (lambda ()
          (interactive)
