@@ -19,6 +19,17 @@
   (require 'use-package))
 
 
+;; -- better defaults
+(setq
+ cursor-in-non-selected-windows t   ; Hide the cursor in inactive windows
+ help-window-select t               ; Focus new help windows when opened
+ inhibit-startup-screen t           ; Disable start-up screen
+ initial-scratch-message ""         ; Empty the initial *scratch* buffer
+ load-prefer-newer t                ; Prefers the newest version of a file
+ select-enable-clipboard t          ; Merge system's and Emacs' clipboard
+ view-read-only t)                  ; Always open read-only buffers in view-mode
+
+
 ;; -- General settings for GUI (close to terminal settings)
 (set-face-attribute 'default nil
                     :family "Menlo" :height 120 :weight 'extra-light)
@@ -303,8 +314,9 @@
 (prelude-require-package 'smart-mode-line)
 (prelude-require-package 'smart-mode-line-powerline-theme)
 (use-package smart-mode-line
-  ;; :custom
-  ;; (sml/no-confirm-load-theme t)
+  :custom
+  (sml/no-confirm-load-theme t)
+  (sml/theme 'respectful)
   ;; (sml/theme 'powerline)
   :init
   (add-hook 'after-init-hook #'sml/setup)
