@@ -151,9 +151,9 @@ _o_ delete others       _y_ redo          _f_ toggle follow mode
 _q_ quit
 
 ^Mode^                    ^Actions^
-^────^──────────----------^──-----^────────------------------------------------
-_g_ toggle global mode     _i_ insert snippet
-_m_ toogle minor mode      _n_ new snippet
+^----^--------------------^-------^--------------------------------------------
+_g_ toggle global mode    _i_ insert snippet
+_m_ toogle minor mode     _n_ new snippet
   "
   ("q" nil)
   ;; mode
@@ -162,6 +162,38 @@ _m_ toogle minor mode      _n_ new snippet
   ;; actions
   ("i" ivy-yasnippet)
   ("n" yas-new-snippet)
+  )
+
+
+(use-package hydra
+  :defer 1
+  :bind ("M-f" . hydra-flycheck/body))
+
+(defhydra hydra-flycheck (:color blue)
+  "
+.: Flycheck :.
+
+_q_ quit
+
+^Mode^            ^Navigation^          ^Checker^
+^----^------------^----------^----------^-------^-------------------------------
+_m_ toggle mode   _<up>_   previous     _s_ select
+^^                _<down>_ next         _d_ disable
+^^                _l_      list         _?_ describe
+^^                ^^                    _v_ verify setup
+  "
+  ("q" nil)
+  ;; Mode
+  ("m" flycheck-mode)
+  ;; Navigation
+  ("<up>" flycheck-previous-error :color pink)
+  ("<down>" flycheck-next-error :color pink)
+  ("l" flycheck-buffer-and-list-errors)
+  ;; Checker
+  ("s" flycheck-select-checker)
+  ("d" flycheck-disable-checker)
+  ("?" flycheck-describe-checker)
+  ("v" flycheck-verify-setup)
   )
 
 
