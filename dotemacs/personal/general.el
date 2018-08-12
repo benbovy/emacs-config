@@ -270,7 +270,12 @@
 
 ;; -- smartparens
 (use-package smartparens
-  :diminish (smartparens-mode . " ⓟ"))
+  :diminish (smartparens-mode . " ⓟ")
+  :config
+  ;; disable key-bindings as hydra is used instead
+  (require 'smartparens-config)
+  (setq sp-base-key-bindings nil)
+  )
 
 
 ;; -- expand-region

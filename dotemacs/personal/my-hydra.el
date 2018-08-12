@@ -12,12 +12,6 @@
 
 (use-package smartparens
   :bind (("M-s" . hydra-smartparens/body))
-  :custom
-  ;; disable some annoying key-bindings as hydra is used instead
-  (sp-override-key-bindings
-   '(("C-<left>" . nil)
-     ("C-<right>" . nil)
-     ("M-s" . nil)))
   :init
   (defhydra hydra-smartparens (:hint nil)
     "
