@@ -268,15 +268,17 @@
 
 ;; -- smart-mode-line
 ;; TODO: tweak powerline theme colors with zenburn
-;; (prelude-require-package 'smart-mode-line)
-;; (prelude-require-package 'smart-mode-line-powerline-theme)
-;; (use-package smart-mode-line
-;;   :custom
-;;   (sml/no-confirm-load-theme t)
-;;   (sml/theme 'powerline)
-;;   :init
-;;   (add-hook 'after-init-hook #'sml/setup)
-;;   )
+(prelude-require-package 'smart-mode-line)
+(prelude-require-package 'smart-mode-line-powerline-theme)
+(use-package smart-mode-line
+  ;; :custom
+  ;; (sml/no-confirm-load-theme t)
+  ;; (sml/theme 'powerline)
+  :init
+  (add-hook 'after-init-hook #'sml/setup)
+  )
+
+
 
 
 (provide 'general)
