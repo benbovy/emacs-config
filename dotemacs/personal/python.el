@@ -65,5 +65,10 @@
   )
 
 
+;; -- pytest
+(prelude-require-package 'python-pytest)
+(use-package python-pytest)
+
+
 (provide 'python)
 ;;;  python.el ends here
