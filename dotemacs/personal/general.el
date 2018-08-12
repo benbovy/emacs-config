@@ -279,6 +279,22 @@
   )
 
 
+;; -- yasnippet
+(prelude-require-package 'yasnippet)
+(prelude-require-package 'yasnippet-snippets)
+(prelude-require-package 'ivy-yasnippet)
+(use-package yasnippet
+  :custom ((yas-global-mode 1))
+  )
+
+(use-package yasnippet-snippets
+  :after yasnippet
+  :config (yasnippet-snippets-initialize))
+
+(use-package ivy-yasnippet
+  :after yasnippet
+  :bind (("C-c y" . ivy-yasnippet))
+  )
 
 
 (provide 'general)

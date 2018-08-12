@@ -11,7 +11,6 @@
 (prelude-require-package 'hydra)
 
 (use-package smartparens
-  :ensure t
   :bind (("M-s" . hydra-smartparens/body))
   :custom
   ;; disable some annoying key-bindings as hydra is used instead
@@ -79,7 +78,6 @@ _k_ kill        _s_ split
 
 
 (use-package ace-window
-  :ensure t
   :bind (("M-w" . hydra-window/body))
   :init
   (defhydra hydra-window (:hint nil)
@@ -140,6 +138,30 @@ _o_ delete others       _y_ redo          _f_ toggle follow mode
            (add-hook 'ace-window-end-once-hook
                      'hydra-window/body)))
     ("s" ace-swap-window))
+  )
+
+
+(use-package hydra
+  :bind ("M-y" . hydra-yasnippet/body))
+
+(defhydra hydra-yasnippet (:color blue :hint nil)
+  "
+.: Yasnippet :.
+
+_q_ quit
+
+^Mode^                    ^Actions^
+^────^──────────----------^──-----^────────------------------------------------
+_g_ toggle global mode     _i_ insert snippet
+_m_ toogle minor mode      _n_ new snippet
+  "
+  ("q" nil)
+  ;; mode
+  ("g" yas-global-mode)
+  ("m" yas-minor-mode)
+  ;; actions
+  ("i" ivy-yasnippet)
+  ("n" yas-new-snippet)
   )
 
 
