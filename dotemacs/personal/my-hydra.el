@@ -191,5 +191,37 @@ _m_ toggle mode   _<up>_   previous     _s_ select
   )
 
 
+(use-package hydra
+  :defer 2
+  :bind ("M-F" . hydra-flyspell/body))
+
+(defhydra hydra-flyspell (:color blue :hint nil)
+  "
+.: Flyspell :.
+
+_q_ quit
+
+^Mode^            ^Navigation^         ^Checker^
+^----^------------^----------^---------^-------^-------------------------------
+_m_ toggle mode   _<up>_   previous     _f_ run flycheck for current buffer
+^^                _<down>_ next         _b_ run ispell for current buffer
+^^                _c_      current      _r_ run ispell for current region
+^^                ^^                    _d_ select dictionary
+  "
+  ("q" nil)
+  ;; Mode
+  ("m" flyspell-mode)
+  ;; Navigation
+  ("<up>" flyspell-correct-previous :color pink)
+  ("<down>" flyspell-correct-next :color pink)
+  ("c" flyspell-correct-word-generic)
+  ;; Checker
+  ("f" flyspell-buffer :color pink)
+  ("b" ispell)
+  ("r" ispell-region)
+  ("d" ispell-change-dictionary :color pink)
+  )
+
+
 (provide 'my-hydra)
 ;;;  my-hydra.el ends here

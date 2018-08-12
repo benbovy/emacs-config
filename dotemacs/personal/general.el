@@ -58,11 +58,6 @@
 ;;(setq split-height-threshold 200)
 
 
-;; -- custom ace-window shortcut (<s-w>, i.e., Command-w doesn't work in terminal)
-(use-package ace-window
-  :bind* ("M-o" . ace-window))
-
-
 ;; -- disable advanced purist mode
 (use-package prelude-custom
   :config
@@ -111,8 +106,18 @@
   :config
   (setq ispell-dictionary "en_US"))
 
+(prelude-require-package 'flyspell-correct)
+(prelude-require-package 'flyspell-correct-ivy)
 (use-package flyspell
   :diminish (flyspell-mode . " ⓢ"))
+
+(prelude-require-package 'flyspell-correct-ivy)
+(use-package flyspell-correct-ivy
+  :after flyspell
+  :bind (:map flyspell-mode-map
+              ("C-;" . flyspell-correct-word-generic))
+  :custom (flyspell-correct-interface 'flyspell-correct-ivy)
+  )
 
 
 ;;  -- linter
@@ -212,7 +217,16 @@
 ;;    `(magit-diff-added ((t (:background "#005f5f" :foreground "#ddffdd"))))))
 
 
-;; -- ivy (rich)
+;; -- ivy
+(prelude-require-package 'ivy-hydra)
+(use-package ivy
+  :config
+  (require 'ivy-hydra)
+  :bind
+  ;; TODO: the M-o suggested key bindings doesn't work (conflict with crux)
+  (:map ivy-minibuffer-map ("M-a" . ivy-dispatching-done-hydra))
+  )
+
 (prelude-require-package 'ivy-rich)
 (use-package ivy-rich
   :after ivy
