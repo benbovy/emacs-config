@@ -20,7 +20,8 @@
          ("M-m" . hydra-magit/body)
          ("M-y" . hydra-yasnippet/body)
          ("M-f" . hydra-flycheck/body)
-         ("M-F" . hydra-flyspell/body))
+         ("M-F" . hydra-flyspell/body)
+         ("M-p" . hydra-projectile/body))
   )
 
 
@@ -237,6 +238,44 @@ _m_ toggle mode   _<up>_   previous     _f_ run flycheck for current buffer
   ("b" ispell)
   ("r" ispell-region)
   ("d" ispell-change-dictionary :color pink)
+  )
+
+
+(defhydra hydra-projectile (:color blue :hint nil)
+  "
+.: Projectile :.
+
+_q_ quit
+
+^Projects^               ^Buffers^           ^Find^          ^Search^
+^--------^---------------^-------^-----------^----^----------^------^----------
+_p_ switch project       _b_ switch buffer   _f_ file        _s_ search (rg)
+_q_ switch open project  _I_ Ibuffer         _e_ recent      _r_ replace
+_v_ version control      _k_ kill all        _d_ directory   _R_ regexp replace
+_i_ reset cache          _S_ save all        _D_ root dir
+^^                       ^^                  _<SPC>_ buffer or file
+  "
+  ("q" nil)
+  ;; Projects
+  ("p" counsel-projectile-switch-project)
+  ("q" projectile-switch-open-project)
+  ("v" projectile-vc)
+  ("i" projectile-invalidate-cache :color red)
+  ;; Buffers
+  ("b" counsel-projectile-switch-to-buffer)
+  ("I" projectile-ibuffer)
+  ("k" projectile-kill-buffers)
+  ("S" projectile-save-project-buffers)
+  ;; Find
+  ("f" counsel-projectile-find-file)
+  ("e" projectile-recentf)
+  ("d" counsel-projectile-find-dir)
+  ("D" projectile-dired)
+  ("<SPC>" counsel-projectile)
+  ;; Search
+  ("s" counsel-projectile-rg)
+  ("r" projectile-replace)
+  ("R" projectile-replace-regexp)
   )
 
 
