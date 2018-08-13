@@ -184,6 +184,11 @@
   )
 
 
+;; -- sphinx
+(prelude-require-package 'sphinx-mode)
+(use-package sphinx-mode)
+
+
 ;; -- slideshow (remark)
 (prelude-require-package 'remark-mode)
 
