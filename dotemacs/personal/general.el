@@ -78,8 +78,13 @@
 ;; -- dashboard
 (prelude-require-package 'dashboard)
 (use-package dashboard
-  :config
-  (dashboard-setup-startup-hook)
+  :diminish dashboard-mode
+  :hook ((after-init . dashboard-setup-startup-hook))
+  :custom
+  (dashboard-startup-banner 2)
+  (dashboard-items '((recents  . 5)
+                     (bookmarks . 2)
+                     (projects . 5)))
   )
 
 
