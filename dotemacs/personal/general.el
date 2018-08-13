@@ -75,6 +75,14 @@
   (setq prelude-guru nil))
 
 
+;; -- dashboard
+(prelude-require-package 'dashboard)
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook)
+  )
+
+
 ;; -- line numbers
 (prelude-require-packages '(linum linum-off))
 
