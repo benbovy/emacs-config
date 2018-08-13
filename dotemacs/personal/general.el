@@ -187,6 +187,11 @@
   (setq multi-term-program "/usr/local/bin/bash"))
 
 
+;; -- compilation-mode
+;; cmake colors not working with emacs true colors
+(setq compilation-environment '("TERM=xterm-256color"))
+
+
 ;; -- git / diff
 (prelude-require-package 'git-gutter)
 
