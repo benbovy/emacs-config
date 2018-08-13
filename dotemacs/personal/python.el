@@ -67,7 +67,14 @@
 
 ;; -- pytest
 (prelude-require-package 'python-pytest)
-(use-package python-pytest)
+(use-package python-pytest
+  :custom
+  (python-pytest-arguments
+   '("--color"))
+  :bind (:map python-pytest-mode-map
+              ("M-p" . compilation-previous-error)
+              ("M-n" . compilation-next-error))
+  )
 
 
 (provide 'python)
